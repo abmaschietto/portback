@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 ###SENSITIVE INFO ###
-*.yml
+application.yml
 
 ### STS ###
 .apt_generated

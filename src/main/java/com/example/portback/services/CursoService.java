@@ -10,5 +10,7 @@ public class CursoService {
 	
 	@Autowired
 	private CursoRepository cpRepo;
+	
+	
 
 }
