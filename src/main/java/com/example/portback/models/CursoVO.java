@@ -6,16 +6,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(name = "CURSOS")
 public class CursoVO {
@@ -25,12 +24,10 @@ public class CursoVO {
 	@Column(name = "CURSO_ID")
 	private Long id;
 	
-	@NotEmpty
 	@Column(name = "NOME_CURSO")
 	@NonNull
 	private String nome;
 	
-	@NotEmpty
 	@Column(name = "URL_CERTIFICADO_CURSO")
 	@NonNull
 	private String urlCertificado;

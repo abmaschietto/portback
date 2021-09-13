@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.portback.form.CursoForm;
 import com.example.portback.models.CursoVO;
 import com.example.portback.repositories.CursoRepository;
 
@@ -15,15 +16,13 @@ public class CursoService {
 	private CursoRepository cursoRepo;
 	
 	
-	public void saveCurso(CursoVO curso) {
-		cursoRepo.save(curso);
+	public void saveCurso(CursoForm curso) {
+		cursoRepo.save(new CursoVO(curso.getNome(), curso.getUrlCertificado()));
 	}
-
 
 	public List<CursoVO> findAllCursos() {
 		List<CursoVO> findAll = cursoRepo.findAll();
 		return findAll;
 	}
-	
 	
 }

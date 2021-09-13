@@ -2,6 +2,8 @@ package com.example.portback.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.portback.form.CursoForm;
 import com.example.portback.models.CursoVO;
 import com.example.portback.services.CursoService;
 
@@ -27,7 +30,7 @@ public class CursoController {
 	}
 	
 	@PostMapping(path = "/inserir")
-	public ResponseEntity<String> inserirCurso(@RequestBody CursoVO curso){
+	public ResponseEntity<String> inserirCurso(@RequestBody @Valid CursoForm curso){
 		cursoService.saveCurso(curso);
 		return ResponseEntity.ok("salvo");
 	}
