@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.example.portback.form.CursoForm;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -28,8 +30,14 @@ public class CursoVO {
 	@NonNull
 	private String nome;
 	
-	@Column(name = "URL_CERTIFICADO_CURSO")
+	@Column(name = "URL_CERTIFICADO_CURSO", unique = true)
 	@NonNull
 	private String urlCertificado;
+	
+	public CursoVO updateCurso(CursoForm curso) {
+		this.nome = curso.getNome();
+		this.urlCertificado = curso.getUrlCertificado();
+		return this;
+	}
 	
 }
