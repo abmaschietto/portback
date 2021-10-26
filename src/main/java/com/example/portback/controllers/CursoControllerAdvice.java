@@ -17,26 +17,32 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.portback.DTO.ErrorResponseDto;
 import com.example.portback.DTO.FormularioHandlerDto;
-import com.example.portback.exceptions.CursoInvalidoException;
+import com.example.portback.exceptions.InvalidInfoException;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
+@Slf4j
 public class CursoControllerAdvice {
 
 	@Autowired
 	private MessageSource messageSource;
 
-	@ExceptionHandler(CursoInvalidoException.class)
-	public ResponseEntity<ErrorResponseDto> cursoInvalidoHandler(CursoInvalidoException ex, HttpServletRequest request) {
+	@ExceptionHandler(InvalidInfoException.class)
+	public ResponseEntity<ErrorResponseDto> invalidInfo(InvalidInfoException ex, HttpServletRequest request) {
+		log.error(ex.getMessage());
 		return ResponseEntity.badRequest().body(new ErrorResponseDto(ex.getMessage(), request.getRequestURI()));
 	}
 	
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ErrorResponseDto> cursoInvalidoHandler(DataIntegrityViolationException ex, HttpServletRequest request) {
+		log.error(ex.getMessage());
 		return ResponseEntity.badRequest().body(new ErrorResponseDto(ex.getCause().getCause().getLocalizedMessage(), request.getRequestURI()));
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ErrorResponseDto> invalidFormHnadler(MethodArgumentNotValidException ex, HttpServletRequest request) {
+		log.error(ex.getMessage());
 		List<FormularioHandlerDto> listErrors = new ArrayList<>();
 		List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 		fieldErrors.forEach(error -> {

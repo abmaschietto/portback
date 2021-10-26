@@ -1,10 +1,10 @@
 package com.example.portback.exceptions;
 
-public class CursoInvalidoException extends Exception{
+public class InvalidInfoException extends RuntimeException{
 	
 	private static final long serialVersionUID = 1L;
 
-	public CursoInvalidoException(String errorMessage) {
+	public InvalidInfoException(String errorMessage) {
 		super(errorMessage);
 	}
 }
