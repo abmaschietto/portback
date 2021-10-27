@@ -17,7 +17,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public Role getRole(String roleName) {
-		return roleRepo.findByName(roleName).orElseThrow(() -> new InvalidInfoException("Nenhuma Role encontrada com o nome: " + roleName));
+		return roleRepo.findByName(roleName).orElseThrow(() -> new InvalidInfoException("No Role found under the name: " + roleName));
 	}
 
 	@Override
