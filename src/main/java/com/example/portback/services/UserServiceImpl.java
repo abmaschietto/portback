@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.example.portback.exceptions.InvalidInfoException;
 import com.example.portback.models.Role;
 import com.example.portback.models.User;
-import com.example.portback.repositories.RoleRepository;
 import com.example.portback.repositories.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +37,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User getUser(String userName) {
-		return userRepo.findByName(userName).orElseThrow(() -> new InvalidInfoException("Nenhum usuáriuo encontrado com o nome: " + userName));
+		return userRepo.findByName(userName).orElseThrow(() -> new InvalidInfoException("No User found under the name: " + userName));
 	}
 
 	@Override
