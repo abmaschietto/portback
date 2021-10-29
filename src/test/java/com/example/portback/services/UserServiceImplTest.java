@@ -21,7 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.example.portback.exceptions.InvalidInfoException;
 import com.example.portback.models.Role;
-import com.example.portback.models.User;import com.example.portback.repositories.RoleRepository;
+import com.example.portback.models.User;
+import com.example.portback.repositories.RoleRepository;
 import com.example.portback.repositories.UserRepository;
 
 @ExtendWith(SpringExtension.class)
@@ -33,20 +34,20 @@ class UserServiceImplTest {
 
 	@MockBean
 	UserRepository userRepository;
-	
+
 	@MockBean
 	RoleService roleService;
-	
+
 	static final String firstRoleName = "ADMIN";
 	static final String secondRoleName = "USER";
-	
+
 	static final String notToBeFoundUser = "Unknow User";
 	static final String validUserName = "Artur";
 	static final String anotherValidUserName = "Pepe";
-	
+
 	Role role = new Role();
 	Role role2 = new Role();
-	
+
 	User user = new User();
 	User user2 = new User();
 
@@ -67,11 +68,11 @@ class UserServiceImplTest {
 		Mockito.when(userRepository.save(user)).thenReturn(user);
 		Mockito.when(roleService.getRole(firstRoleName)).thenReturn(role);
 	}
-	
+
 	@DisplayName(value = "Save User")
 	@Test
 	void testSaverUser() {
-		User userSaved = userRepository.save(user);
+		User userSaved = userService.saverUser(user);
 		assertAll("Testing User attributes",
 				() -> assertEquals(userSaved.getName(), user.getName(), "Should been the same User name"),
 				() -> assertEquals(userSaved.getId(), user.getId(), "Should been the same User Id"));
@@ -80,26 +81,27 @@ class UserServiceImplTest {
 	@DisplayName(value = "Testing Role attribution and verify if RoleService is called")
 	@Test
 	void testAddRoleToUser() {
-		 userService.addRoleToUser(validUserName, firstRoleName);
-		 verify(roleService, times(1)).getRole(firstRoleName);
+		userService.addRoleToUser(validUserName, firstRoleName);
+		verify(roleService, times(1)).getRole(firstRoleName);
 	}
 
 	@DisplayName(value = "Find User by name")
 	@Test
 	void testGetUser() {
 		User user = userService.getUser(validUserName);
-		assertAll("Testing the Role fields", 
-				() -> assertEquals(validUserName, user.getName(), "Name is incorrect"),
+		assertAll("Testing the Role fields", () -> assertEquals(validUserName, user.getName(), "Name is incorrect"),
 				() -> assertEquals(1l, user.getId(), "Id is incorrect"));
 	}
-	
+
 	@DisplayName(value = "Testing User not found Exception")
 	@Test
 	void shouldFailGetRole() {
-		InvalidInfoException invalidInfoException = assertThrows(InvalidInfoException.class, () -> userService.getUser(notToBeFoundUser));
-		assertEquals("No User found under the name: " + notToBeFoundUser, invalidInfoException.getMessage(), "Exception Message is incorrect");
+		InvalidInfoException invalidInfoException = assertThrows(InvalidInfoException.class,
+				() -> userService.getUser(notToBeFoundUser));
+		assertEquals("No User found under the name: " + notToBeFoundUser, invalidInfoException.getMessage(),
+				"Exception Message is incorrect");
 	}
-	
+
 	@DisplayName(value = "Test list of Users")
 	@Test
 	void testGetUsers() {
@@ -107,6 +109,13 @@ class UserServiceImplTest {
 		assertAll("Testing method to return all Users",
 				() -> assertEquals(2, users.size(), "List size should have more than 2 users"),
 				() -> assertFalse(users.isEmpty(), "List should not be empty"));
+	}
+
+	@DisplayName(value = "Check if user Repository is called")
+	@Test
+	void verifyMethodCall() {
+		userService.saverUser(user);
+		verify(userRepository, times(1)).save(user);
 	}
 
 }
